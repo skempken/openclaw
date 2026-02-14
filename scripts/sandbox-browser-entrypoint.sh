@@ -35,7 +35,7 @@ else
 fi
 
 CHROME_ARGS+=(
-  "--remote-debugging-address=127.0.0.1"
+  "--remote-debugging-address=0.0.0.0"
   "--remote-debugging-port=${CHROME_CDP_PORT}"
   "--user-data-dir=${HOME}/.chrome"
   "--no-first-run"
@@ -46,6 +46,7 @@ CHROME_ARGS+=(
   "--disable-breakpad"
   "--disable-crash-reporter"
   "--metrics-recording-only"
+  "--remote-allow-origins=*"
 )
 
 if [[ "${ALLOW_NO_SANDBOX}" == "1" ]]; then
