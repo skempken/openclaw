@@ -883,6 +883,13 @@ export function classifyFailoverReason(raw: string): FailoverReason | null {
   if (isAuthErrorMessage(raw)) {
     return "auth";
   }
+  // Catch-all for unclassified 400 errors (e.g. content policy violations from
+  // Azure/LiteLLM) so they trigger model fallback instead of surfacing raw errors.
+  // More specific 400s (format, auth) are already handled above.
+  const httpStatus = extractLeadingHttpStatus(raw.trim());
+  if (httpStatus?.code === 400) {
+    return "unknown";
+  }
   return null;
 }
 
